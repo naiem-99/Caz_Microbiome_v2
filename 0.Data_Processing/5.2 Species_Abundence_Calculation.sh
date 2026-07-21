@@ -8,46 +8,40 @@ shopt -s nullglob
 # ===============================
 module load python-3.9.18
 
-# Make "python" available for Bracken
-mkdir -p ~/bin
-ln -sf $(which python3) ~/bin/python
-export PATH=~/bin:$PATH
-
-# ===============================
-# BRACKEN PATH
-# ===============================
-export PATH="/nfs/users/nfs_m/ma32/tools/Bracken:$PATH"
-
 # ===============================
 # PATHS
 # ===============================
-KRAKEN_DB="/data/pam/team216/ma32/scratch/metagenome/caz/kraken2_braken_db"
+IN_DIR="/data/pam/team216/ma32/scratch/metagenome/caz/bracken_Species_Bacteria_outputF"
 
-REPORT_DIR="/data/pam/team216/ma32/scratch/metagenome/caz/report_kraken2_bacteria"
+SCRIPT="/nfs/users/nfs_m/ma32/tools/Bracken/analysis_scripts/combine_bracken_outputs.py"
 
-OUT_DIR="/data/pam/team216/ma32/scratch/metagenome/caz/bracken_Species_Bacteria_outputF"
-
-READ_LEN=150
-LEVEL="S"
-
-mkdir -p "${OUT_DIR}"
+OUT_FILE="${IN_DIR}/species_Bacteria_matrix.tsv"
 
 # ===============================
-# RUN BRACKEN
+# CHECK INPUT
 # ===============================
-for REPORT in "${REPORT_DIR}"/*.kreport; do
+cd "$IN_DIR"
 
-    SAMPLE=$(basename "${REPORT}" .kreport)
+FILES=( *.bracken )
 
-    echo "Running Bracken for ${SAMPLE} ..."
+if [ ${#FILES[@]} -eq 0 ]; then
+    echo "No .bracken files found!"
+    exit 1
+fi
 
-    bracken \
-        -d "${KRAKEN_DB}" \
-        -i "${REPORT}" \
-        -o "${OUT_DIR}/${SAMPLE}.bracken" \
-        -r "${READ_LEN}" \
-        -l "${LEVEL}"
+echo "Found ${#FILES[@]} Bracken files"
 
-done
+echo "First few files:"
+printf '%s\n' "${FILES[@]:0:5}"
 
-echo "Bracken Species abundance completed!"
+# ===============================
+# RUN COMBINE
+# ===============================
+echo "Combining Bracken outputs..."
+
+python3 "$SCRIPT" \
+    --files "${FILES[@]}" \
+    -o "$OUT_FILE"
+
+echo "Matrix generated:"
+echo "$OUT_FILE"
