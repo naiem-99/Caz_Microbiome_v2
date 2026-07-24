@@ -41,7 +41,7 @@ write.csv(Merged_Species,"D:/4.Caz-Micro-v4/Species/Processed_File_Species/Caz_S
 #--------------------------------Merge the data--------------------------------------------------------
 Merged_Meta <- read.csv("D:/4.Caz-Micro-v4/0.Meta_Data/Merged_CAZ_Meta.csv",check.names = F)
 dim(Merged_Meta)
-#-- the phyloseq require the matrix file (abundence)
+#-- phyloseq requires the matrix file (abundance)
 Abundence_Matrix_Species <- Caz_Species %>%dplyr::filter(SampleID %in% Merged_Species$SampleID) %>%column_to_rownames("SampleID") %>%data.matrix()
 dim(Abundence_Matrix_Species)
 
@@ -197,7 +197,7 @@ plot_Simpson <- ggplot(
                 shape = 21,stroke = 0.4) +
                 geom_boxplot(width = 0.55,
                 outlier.shape = NA,
-                color = "black",alpha = 0.5) +  # ← transparent so jitter shows through
+                color = "black",alpha = 0.5) +  
                 facet_wrap(~TP, nrow = 1) +
                 scale_fill_manual(values = c(
                   "Placebo"      = "#648FFF",
@@ -209,14 +209,14 @@ plot_Simpson <- ggplot(
                 hide.ns    = FALSE,
                 size       = 5) +
                 labs(title = "Simpson",x = NULL,y = "Simpson Index") +
-                theme_bw(base_size = 12) +                                        # ← reduced from 16
+                theme_bw(base_size = 12) +                                       
                 theme(panel.spacing       = unit(0.6, "lines"),
-                axis.text.x         = element_text(angle = 45, hjust = 1, size = 10),  # ← explicit size
+                axis.text.x         = element_text(angle = 45, hjust = 1, size = 10), 
                 axis.text.y         = element_text(size = 10),
                 axis.title          = element_text(size = 11),
                 strip.background    = element_rect(fill = "grey90", color = "black"),
                 strip.text          = element_text(face = "bold", size = 11),
-                plot.title          = element_text(hjust = 0.5, face = "bold", size = 12), # ← smaller title
+                plot.title          = element_text(hjust = 0.5, face = "bold", size = 12), 
                 legend.position     = "none",
                 panel.grid.major    = element_line(color = "grey85", linewidth = 0.4),
                 panel.grid.minor    = element_line(color = "grey92", linewidth = 0.2))
@@ -250,7 +250,7 @@ plot_InvSimpson <- ggplot(Alpha_merged_Meta,
                   geom_boxplot(width = 0.55,
                   outlier.shape = NA,
                   color = "black",
-                  alpha = 0.5) +                         # ← transparent so jitter shows through
+                  alpha = 0.5) +                        
                   facet_wrap(~TP, nrow = 1) +
                   scale_fill_manual(values = c("Placebo"= "#648FFF","Azithromycin" = "#EE6AA7"))+
                   stat_pvalue_manual(
@@ -260,14 +260,14 @@ plot_InvSimpson <- ggplot(Alpha_merged_Meta,
                   hide.ns    = FALSE,
                   size       = 5) +
                  labs(title = "InvSimpson",x = NULL,y = "InvSimpson Index")  +
-                 theme_bw(base_size = 12) +                                        # ← reduced from 16
+                 theme_bw(base_size = 12) +                                        
                  theme(panel.spacing       = unit(0.6, "lines"),
-                 axis.text.x         = element_text(angle = 45, hjust = 1, size = 10),  # ← explicit size
+                 axis.text.x         = element_text(angle = 45, hjust = 1, size = 10), 
                  axis.text.y         = element_text(size = 10),
                  axis.title          = element_text(size = 11),
                  strip.background    = element_rect(fill = "grey90", color = "black"),
                  strip.text          = element_text(face = "bold", size = 11),
-                 plot.title          = element_text(hjust = 0.5, face = "bold", size = 12), # ← smaller title
+                 plot.title          = element_text(hjust = 0.5, face = "bold", size = 12),
                  legend.position     = "none",
                  panel.grid.major    = element_line(color = "grey85", linewidth = 0.4),
                  panel.grid.minor    = element_line(color = "grey92", linewidth = 0.2))
