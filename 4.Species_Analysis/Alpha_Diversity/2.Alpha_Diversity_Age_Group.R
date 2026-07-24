@@ -48,11 +48,11 @@ plot_Shannon_uni <- ggplot(
                     Unique_sample_analysis_Alpha_Div,
                     aes(x = Age_Group, y = Shannon, fill = Treatmentcode)) +
                     geom_boxplot(
-                    width = 0.5,                              # ← narrower boxes to create space
+                    width = 0.5,                              
                     outlier.shape = NA,
                     color = "black",
                     alpha = 0.5,
-                    position = position_dodge(0.6)) +         # ← controls gap between Placebo/AZM
+                    position = position_dodge(0.6)) +         
                     geom_jitter(
                     aes(fill = Treatmentcode),
                     color = "black",
@@ -62,7 +62,7 @@ plot_Shannon_uni <- ggplot(
                     stroke = 0.4,
                     position = position_jitterdodge(
                     jitter.width = 0.1,
-                    dodge.width  = 0.6)) +                  # ← must match boxplot dodge
+                    dodge.width  = 0.6)) +                 
                     facet_wrap(~TP, nrow = 1) +
                     scale_fill_manual(values = c(
                    "Placebo"      = "#836FFF",
